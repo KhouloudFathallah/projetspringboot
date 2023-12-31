@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout Employee</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" integrity="sha512-siarrzI1u3pCqFG2LEzi87McrBmq6Tp7juVsdmGY1Dr8Saw+ZBAzDzrGwX3vgxX1NkioYNCFOVC0GpDPss10zQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="">NavBar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="navbar-brand" href="/user/employee">Employee</a>
+            <a class="navbar-brand" href="/user/departement">Departement</a>
+            <a class="navbar-brand" href="/user/missions">Mission</a>
+
+        </div>
+    </div>
+    <form method="post" th:action="@{/logout}">
+        <button type="submit" class="btn btn-danger btn-sm">logout</button>
+
+    </form>
+</nav>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center">Ajout Employee</h1>
+            <div class="alert alert-danger d-none"  id="customAlert" role="alert" >
+                Erreur de validation !!!!!
+            </div>
+            <form method="post" th:action="@{/admin/save}" id="productForm" enctype="multipart/form-data">
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Nom </label>
+                        <input type="text" class="form-control" id="inputEmail4" placeholder="Nom employee" name="nom" th:value="${employee.nom}">
+                        <span class="text-danger" th:errors="${employee.nom}"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Prenom</label>
+                        <input type="currency" class="form-control" id="inputPassword4" name="prenom" placeholder="Prenom" th:value="${employee.prenom}">
+                        <span class="text-danger" th:errors="${employee.prenom}"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">CIN</label>
+                    <input type="text" class="form-control" id="inputAddress" name="cin" placeholder="CIN" th:value="${employee.cin}">
+                    <span class="text-danger" th:errors="${employee.cin}"></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-auto my-1">
+                        <label class="mr-sm-2" for="inlineFormCustomSelect">Categories</label>
+                        <select class="custom-select mr-sm-2" name="departement"id="inlineFormCustomSelect">
+                            <option th:each="d:${departements}" th:text="${d.nomDep}" th:value="${d.id}"
+                                    th:selected="${employee.departement!=null && employee.departement.id== d.id}"></option>
+                        </select>
+
+                    </div>
+                    <span class="text-danger" th:errors="${employee.departement.nomDep}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="mr-sm-2" for="inlineFormCustomSelect">choisir image : </label>
+                    <input type="file" accept="image/*" name="f">
+                    <input type="hidden" name="photo" th:value="${employee.photo}">
+                </div>
+                <br>
+                <input type="hidden" name="id" th:value="${employee.id}">
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    // Add this script to handle the form submission and show/hide the custom alert
+    document.getElementById('productForm').addEventListener('submit', function(event) {
+        // You can add your validation logic here
+        var isValid = true; // Replace this with your actual validation logic
+
+        if (!isValid) {
+            // If validation fails, prevent the form submission and show the custom alert
+            event.preventDefault();
+            document.getElementById('customAlert').classList.remove('d-none');
+        } else {
+            // If validation passes, you can hide the custom alert if it was previously shown
+            document.getElementById('customAlert').classList.add('d-none');
+        }
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
