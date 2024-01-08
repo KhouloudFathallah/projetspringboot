@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: projetkhouloud
+  name: database
+  labels:
+    app: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      name: database
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: database-name
+                  name: db
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: database-username
+                  name: db
+            - name: MYSQL_PASSWORD
+              value:
+            - name: MYSQL_ROOT_PASSWORD
+              value:
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              name: database-storage
+      volumes:
+        - name: database-storage
+          persistentVolumeClaim:
+            claimName: azure-managed-disk-pvc

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: projetkhouloud
+  name: service-app
+spec:
+  selector:
+    app: projetkhouloud
+  ports:
+    - protocol: TCP
+      port: 82
+      targetPort: 8081
+  type: LoadBalancer

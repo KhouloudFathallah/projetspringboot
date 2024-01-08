@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: projetkhouloud
+  name: projetkhouloud
+  labels:
+    app: projetkhouloud
+spec:
+  selector:
+    matchLabels:
+      app: projetkhouloud
+  strategy:
+    type: RollingUpdate
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: projetkhouloud
+    spec:
+      containers:
+        - image: fthkhouloud/springbootapp
+          name: projetkhouloud
+          ports:
+            - containerPort: 8081
+              name: http
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://service-database:80/ProjetKhouloud
